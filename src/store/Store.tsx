@@ -12,17 +12,17 @@ import thunk from 'redux-thunk';
 // Import reducers and state type
 import {
   characterReducer,
-  ICharacterState,
-} from '../reducers/characterReducer';
+  IMovieState,
+} from '../reducers/MovieReducer';
 
 // Create an interface for the application state
 export interface IAppState {
-  characterState: ICharacterState;
+  moviesState: IMovieState;
 }
 
 // Create the root reducer
 const rootReducer = combineReducers<IAppState>({
-  characterState: characterReducer,
+  moviesState: characterReducer,
 });
 
 // Create a configure store function of type `IAppState`

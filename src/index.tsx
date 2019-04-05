@@ -12,7 +12,7 @@ import { Store } from 'redux';
 
 // Import the store function and state
 import configureStore, { IAppState } from './store/Store';
-import { getAllCharacters } from './actions/CharacterActions';
+import { getAllMovies } from './actions/MovieActions';
 
 interface IProps {
   store: Store<IAppState>;
@@ -32,7 +32,7 @@ const Root: React.SFC<IProps> = props => {
 
 // Generate the store
 const store = configureStore();
-store.dispatch(getAllCharacters());
+store.dispatch(getAllMovies());
 
 // Render the App
 ReactDOM.render(<Root store={store} />, document.getElementById('app') as HTMLElement);

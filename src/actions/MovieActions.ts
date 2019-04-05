@@ -31,14 +31,14 @@ export const getAllMovies: ActionCreator<
   return async (dispatch: Dispatch) => {
     try {
       console.log('samsibagpula');
-      const response = await axios.get('https://swapi.co/api/people/', {
+      const response = await axios.get('https://s3.eu-west-2.amazonaws.com/cognitionx-assets/movies.json', {
         headers: {
           'Content-Type': 'application/json',
         }
       });
-      console.log(response.data.results);
+      console.log(response.data);
       dispatch({
-        movies: response.data.results,
+        movies: response.data,
         type: MovieActionTypes.GET_ALL,
       });
     } catch (err) {

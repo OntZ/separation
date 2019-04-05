@@ -11,16 +11,16 @@ interface IProps {
   movies: IMovie[];
 }
 
-class MovieList extends React.Component<IProps> {
+export class MovieList extends React.Component<IProps> {
   public render() {
     console.log(this.props);
     return (
       <div className="name-container">
         {this.props.movies &&
-          this.props.movies.map(movie => {
+          this.props.movies.map((movie, index) => {
             return (
-              <span key={movie.name} className="name">
-                {movie.name}
+              <span key={movie.title + index} className="name">
+                {movie.title}
               </span>
             );
           })}

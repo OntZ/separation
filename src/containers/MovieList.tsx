@@ -1,30 +1,56 @@
 
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux'
 
 import { IAppState } from '../store/Store';
-
 import { IMovie } from '../reducers/MovieReducer';
+import { Autocomplete } from '../components/Autocomplete';
+import { MovieActionTypes } from '../actions/MovieActions';
 
 // Create the containers interface
-interface IProps {
+interface IMovieListProps {
   movies: IMovie[];
+  firstSelectedMovie?: IMovie;
+  secondSelectedMovie?: IMovie;
+  selectFirstMovie: (movie: IMovie) => void;
+  selectSecondMovie: (movie: IMovie) => void;
 }
 
-export class MovieList extends React.Component<IProps> {
+export class MovieList extends React.Component<IMovieListProps> {
   public render() {
-    console.log(this.props);
     return (
-      <div className="name-container">
-        {this.props.movies &&
-          this.props.movies.map((movie, index) => {
-            return (
-              <span key={movie.title + index} className="name">
-                {movie.title}
-              </span>
-            );
-          })}
-      </div>
+      <>
+        {this.props.movies
+          ? <div className="inner-grid-8">
+              <div className="col-lg-2 col-md-3 col-sm-12">
+                <Autocomplete<IMovie>
+                  value={this.props.firstSelectedMovie}
+                  options={this.props.movies}
+                  valueSelected={this.props.selectFirstMovie}
+                  labelKey='title'
+                  label="Choose a movie"
+                  />
+              </div>
+              <div className="col-lg-4 col-md-2 bottom-spacing"/>
+              <div className="col-lg-2 col-md-3 col-sm-12">
+                <Autocomplete<IMovie>
+                  value={this.props.secondSelectedMovie}
+                  options={this.props.movies}
+                  valueSelected={this.props.selectSecondMovie}
+                  labelKey='title'
+                  label="Choose another movie"
+                />
+              </div>
+              <div className="col-lg-12 bottom-spacing"></div>
+              <div className="col-lg-12">
+                {JSON.stringify(this.props.firstSelectedMovie, null, 4)}
+                {JSON.stringify(this.props.secondSelectedMovie, null, 4)}
+              </div>
+            </div>
+          : <div>loading movies...</div>
+        }
+      </>
     );
   }
 }
@@ -33,7 +59,24 @@ export class MovieList extends React.Component<IProps> {
 const mapStateToProps = (store: IAppState) => {
   return {
     movies: store.moviesState.movies,
+    firstSelectedMovie: store.moviesState.firstSelectedMovie,
+    secondSelectedMovie: store.moviesState.secondSelectedMovie
   };
 };
 
-export default connect(mapStateToProps)(MovieList);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  selectFirstMovie: (movie: IMovie) => {
+    dispatch({
+      type: MovieActionTypes.SELECT_FIRST,
+      firstSelectedMovie: movie
+    })
+  },
+  selectSecondMovie: (movie: IMovie) => {
+    dispatch({
+      type: MovieActionTypes.SELECT_SECOND,
+      secondSelectedMovie: movie
+    })
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieList);

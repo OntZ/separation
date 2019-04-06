@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { App } from './app/App';
-import './app/App.scss';
+import './index.scss';
 
 /* Make the store available to all container 
 components in the application without passing it explicitly */

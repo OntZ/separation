@@ -6,7 +6,7 @@ import { Dispatch } from 'redux'
 import { IAppState } from '../store/Store';
 import { IMovie } from '../reducers/MovieReducer';
 import { Autocomplete } from '../components/Autocomplete';
-import { MovieActionTypes } from '../actions/MovieActions';
+import { MovieActionTypes, MovieActions } from '../actions/MovieActions';
 
 // Create the containers interface
 interface IMovieListProps {
@@ -64,7 +64,7 @@ const mapStateToProps = (store: IAppState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch<MovieActions>) => ({
   selectFirstMovie: (movie: IMovie) => {
     dispatch({
       type: MovieActionTypes.SELECT_FIRST,

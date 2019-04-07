@@ -8,13 +8,14 @@ import { IMovie } from '../reducers/MovieReducer';
 import { Autocomplete } from '../components/Autocomplete';
 import { MovieActionTypes, MovieActions } from '../actions/MovieActions';
 
-// Create the containers interface
 interface IMovieListProps {
   movies: IMovie[];
   firstSelectedMovie?: IMovie;
   secondSelectedMovie?: IMovie;
   selectFirstMovie: (movie: IMovie) => void;
   selectSecondMovie: (movie: IMovie) => void;
+  computeConnection: (m1?: IMovie, m2?: IMovie) => string;
+  connection: string;
 }
 
 export class MovieList extends React.Component<IMovieListProps> {
@@ -44,14 +45,19 @@ export class MovieList extends React.Component<IMovieListProps> {
               </div>
               <div className="col-lg-12 bottom-spacing"></div>
               <div className="col-lg-12">
-                {JSON.stringify(this.props.firstSelectedMovie, null, 4)}
-                {JSON.stringify(this.props.secondSelectedMovie, null, 4)}
+                <a href="#/" onClick={this.computeConnection}>Compute connection</a>
+                {this.props.connection}
               </div>
             </div>
           : <div>loading movies...</div>
         }
       </>
     );
+  }
+
+  private computeConnection = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    this.props.computeConnection()
   }
 }
 
@@ -60,7 +66,8 @@ const mapStateToProps = (store: IAppState) => {
   return {
     movies: store.moviesState.movies,
     firstSelectedMovie: store.moviesState.firstSelectedMovie,
-    secondSelectedMovie: store.moviesState.secondSelectedMovie
+    secondSelectedMovie: store.moviesState.secondSelectedMovie,
+    connection: store.moviesState.connection
   };
 };
 
@@ -75,6 +82,11 @@ const mapDispatchToProps = (dispatch: Dispatch<MovieActions>) => ({
     dispatch({
       type: MovieActionTypes.SELECT_SECOND,
       secondSelectedMovie: movie
+    })
+  },
+  computeConnection: () => {
+    dispatch({
+      type: MovieActionTypes.COMPUTE_CONNECTION
     })
   }
 });

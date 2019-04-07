@@ -17,6 +17,7 @@ export interface IMovieState {
   readonly movies: IMovie[];
   readonly firstSelectedMovie?: IMovie;
   readonly secondSelectedMovie?: IMovie;
+  readonly connection?: string;
 }
 
 // Define the initial state
@@ -47,7 +48,26 @@ export const movieReducer: Reducer<IMovieState, MovieActions> = (
         secondSelectedMovie: action.secondSelectedMovie,
       };
     }
+    case MovieActionTypes.COMPUTE_CONNECTION: {
+      return {
+        ...state,
+        connection: computeConnectionFromState({...state})
+      };
+    }
     default:
       return state;
   }
 };
+
+const computeConnectionFromState = (state: IMovieState) => {
+  if (state.firstSelectedMovie && state.secondSelectedMovie) {
+  //   const m1 = state.firstSelectedMovie
+  //   const m2 = state.secondSelectedMovie
+  //   state.movies.forEach(movie => {
+
+  //   })
+    return 'You have successfully selected two movies. Follow us on Twitter to get the latest news on connection calculations and more!'
+  }
+
+  return 'Please select two movies to see their connection.';
+}

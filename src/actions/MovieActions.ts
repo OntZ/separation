@@ -10,7 +10,8 @@ import { IMovie, IMovieState } from '../reducers/MovieReducer';
 export enum MovieActionTypes {
   GET_ALL = 'GET_ALL',
   SELECT_FIRST = 'SELECT_FIRST',
-  SELECT_SECOND = 'SELECT_SECOND'
+  SELECT_SECOND = 'SELECT_SECOND',
+  COMPUTE_CONNECTION = 'COMPUTE_CONNECTION'
 }
 
 // Interface for Get All Action Type
@@ -29,18 +30,25 @@ export interface ISecondMovieSelectAction {
   secondSelectedMovie: IMovie;
 }
 
+export interface IComputeConectionAction {
+  type: MovieActionTypes.COMPUTE_CONNECTION;
+}
+
 /*
 Combine the action types with a union (we assume there are more)
 example: export type CharacterActions = IGetAllAction | IGetOneAction ...
 */
-export type MovieActions = IMovieGetAllAction | IFirstMovieSelectAction | ISecondMovieSelectAction;
+export type MovieActions = IMovieGetAllAction
+  | IFirstMovieSelectAction
+  | ISecondMovieSelectAction
+  | IComputeConectionAction;
 
 /* Get All Action
 <Promise<Return Type>, State Interface, Type of Param, Type of Action> */
 export const getAllMovies: ActionCreator<
   ThunkAction<Promise<any>, IMovieState, null, IMovieGetAllAction>
 > = () => {
-  return async (dispatch: Dispatch) => {
+  return async (dispatch: Dispatch<IMovieGetAllAction>) => {
     try {
       const response = await axios.get('https://s3.eu-west-2.amazonaws.com/cognitionx-assets/movies.json', {
         headers: {
@@ -60,7 +68,7 @@ export const getAllMovies: ActionCreator<
 export const selectFirstMovie: ActionCreator<
   ThunkAction<void, IMovieState, null, IFirstMovieSelectAction>
 > = (movie: IMovie) => {
-  return (dispatch: Dispatch) => {
+  return (dispatch: Dispatch<IFirstMovieSelectAction>) => {
     dispatch({
       firstSelectedMovie: movie,
       type: MovieActionTypes.SELECT_FIRST,
@@ -69,12 +77,22 @@ export const selectFirstMovie: ActionCreator<
 };
 
 export const selectSecondMovie: ActionCreator<
-  ThunkAction<void, IMovieState, null, IFirstMovieSelectAction>
+  ThunkAction<void, IMovieState, null, ISecondMovieSelectAction>
 > = (movie: IMovie) => {
-  return (dispatch: Dispatch) => {
+  return (dispatch: Dispatch<ISecondMovieSelectAction>) => {
     dispatch({
       secondSelectedMovie: movie,
       type: MovieActionTypes.SELECT_SECOND,
+    });
+  };
+};
+
+export const computeConnection: ActionCreator<
+  ThunkAction<void, IMovieState, null, IComputeConectionAction>
+> = () => {
+  return (dispatch: Dispatch<IComputeConectionAction>) => {
+    dispatch({
+      type: MovieActionTypes.COMPUTE_CONNECTION
     });
   };
 };

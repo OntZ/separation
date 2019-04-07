@@ -7,7 +7,7 @@ export class App extends React.Component<{greeting: string}, {count:number}> {
   public render() {
     return (
       <div className="app-container content-area">
-          <h2>{this.props.greeting}</h2>
+          <h2 className="col-lg-12">{this.props.greeting}</h2>
           <div className="col-lg-12">
             <MovieList />
           </div>

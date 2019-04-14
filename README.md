@@ -130,5 +130,17 @@ I feel implementing something like this client-side would be a colossal waste of
 
 Thus I resolved to create a fresh tree starting from movie 1 each time, adding related movies breadth-first (add related movies as children, if movie 2 is found at that level, return, otherwise go to next layer etc.), until we reach movie 2. This assures the path found is always the shortest and is the least memory-intensive solution, although computationally it's a gamble every time.
 
-The core computation for this can be found in ```reducers/processing/MovieFinding.ts```
+The core computation for this can be found in ```src/reducers/processing/MovieFinding.ts```. Comments and the adjacent tests help describe it.
 
+It is facilitated by a simple recursive data structure which can be found in ```dataStructures/TreeNode```.
+
+The movies get loaded upon page load via ```src/actions/MovieActions => getAllMovies```.
+
+The two autocomplete boxes use ```react-bootstrap-typeahead``` and can be found in ```src/components/Autocomplete```.
+
+The app is based off a React template I made in the past in an effort to avoid webpack-related frustration. I've integrated Redux based on an article I found. The relevant changes can be seen in the closed pull request linked above.
+
+The page is fully responsive via a simple grid system I came up with a while ago, which can be found in ```src/index.scss```, but otherwise minimalistic. The breakpoints are declared in ```src/app-mixins-and-vars.scss`, which is imported into all other style files courtesy of a node-sass configuration in webpack. That file should be restricted to SASS mixins and variables, otherwise node-sass gratiously duplicates any resulting CSS code as many times as it is used.
+
+### Caveat
+I've never used Redux before in any serious fashion, so I'd be grateful if you could please feed back to me what I could improve on.

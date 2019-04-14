@@ -12,6 +12,7 @@ interface IAutocompleteProps<T extends TypeaheadModel> {
   labelKey: TypeaheadLabelKey<T>;
   label?: string;
   valueSelected: (value: T) => void;
+  id?: string;
 }
 
 export class Autocomplete<T extends TypeaheadModel> extends React.Component<IAutocompleteProps<T>> {
@@ -19,8 +20,10 @@ export class Autocomplete<T extends TypeaheadModel> extends React.Component<IAut
     const props: TypeaheadProps<T> = {
       options: this.props.options,
       onChange: this.valueSelected,
-      labelKey: this.props.labelKey
-    }
+      labelKey: this.props.labelKey,
+      /** It "needs an ID for accessibility purposes", doesn't let you opt out */
+      id: this.props.id || Math.random()
+    };
 
     if (this.props.value) {
       props.selected = [this.props.value];

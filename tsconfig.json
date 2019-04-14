@@ -23,6 +23,7 @@
     "build",
     "jest",
     "config",
+    "scripts",
     "src/**/*.test*",
     "webpack*",
     "coverage"

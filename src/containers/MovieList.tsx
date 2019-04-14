@@ -8,7 +8,7 @@ import { IMovie } from '../reducers/MovieReducer';
 import { Autocomplete } from '../components/Autocomplete';
 import { MovieActionTypes, MovieActions } from '../actions/MovieActions';
 
-interface IMovieListProps {
+export interface IMovieListProps {
   movies: IMovie[];
   firstSelectedMovie?: IMovie;
   secondSelectedMovie?: IMovie;
@@ -26,6 +26,7 @@ export class MovieList extends React.Component<IMovieListProps> {
           ? <div className="inner-grid-8">
               <div className="col-lg-2 col-md-3 col-sm-12">
                 <Autocomplete<IMovie>
+                  id="1"
                   value={this.props.firstSelectedMovie}
                   options={this.props.movies}
                   valueSelected={this.props.selectFirstMovie}
@@ -36,6 +37,7 @@ export class MovieList extends React.Component<IMovieListProps> {
               <div className="col-lg-4 col-md-2 bottom-spacing"/>
               <div className="col-lg-2 col-md-3 col-sm-12">
                 <Autocomplete<IMovie>
+                  id="2"
                   value={this.props.secondSelectedMovie}
                   options={this.props.movies}
                   valueSelected={this.props.selectSecondMovie}
@@ -46,6 +48,9 @@ export class MovieList extends React.Component<IMovieListProps> {
               <div className="col-lg-12 bottom-spacing"></div>
               <div className="col-lg-12">
                 <a href="#/" onClick={this.computeConnection}>Compute connection</a>
+                <br/>
+                <br/>
+                <br/>
                 {this.props.connection}
               </div>
             </div>

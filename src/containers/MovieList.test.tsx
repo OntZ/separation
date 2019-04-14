@@ -1,10 +1,19 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { MovieList } from './MovieList';
+import { MovieList, IMovieListProps } from './MovieList';
 import { shallow } from 'enzyme';
-import { IMovie } from '../reducers/MovieReducer';
 
-const MOVIES:IMovie[] = [{title: 'title', cast: ['1','2']}];
+const PROPS: IMovieListProps = {
+  movies: [{title: 'title', cast: ['1','2']}],
+  firstSelectedMovie: {title: 'title', cast: ['1','2']},
+  secondSelectedMovie: {title: 'title', cast: ['1','2']},
+  selectFirstMovie: jest.fn(),
+  selectSecondMovie: jest.fn(),
+  computeConnection: jest.fn(),
+  connection: 'string'
+}
+
+const getInstance = () => <MovieList {...PROPS}/>
 
 describe('MovieList', () => {
   it('should be a React component', () => {
@@ -13,11 +22,11 @@ describe('MovieList', () => {
 
   it('renders without crashing', () => {
     const div = document.createElement('div');
-    ReactDOM.render(<MovieList movies={MOVIES}/>, div);
+    ReactDOM.render(getInstance(), div);
     ReactDOM.unmountComponentAtNode(div);
   });
 
   it('enzyme rendering works', () => {
-    shallow(<MovieList movies={MOVIES}/>);
+    shallow(getInstance());
   });
 })

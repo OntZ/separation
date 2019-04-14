@@ -1,10 +1,8 @@
 
 // Import Reducer type
 import { Reducer } from 'redux';
-import {
-  MovieActions,
-  MovieActionTypes,
-} from '../actions/MovieActions';
+import { MovieActions, MovieActionTypes } from '../actions/MovieActions';
+import { computeConnectionBetweenSelectedMovies } from './processing/MovieFinding';
 
 // Define the Movie type
 export interface IMovie {
@@ -22,7 +20,7 @@ export interface IMovieState {
 
 // Define the initial state
 const initialMoviesState: IMovieState = {
-  movies: [],
+  movies: []
 };
 
 export const movieReducer: Reducer<IMovieState, MovieActions> = (
@@ -33,7 +31,7 @@ export const movieReducer: Reducer<IMovieState, MovieActions> = (
     case MovieActionTypes.GET_ALL: {
       return {
         ...state,
-        movies: action.movies,
+        movies: action.movies
       };
     }
     case MovieActionTypes.SELECT_FIRST: {
@@ -51,23 +49,10 @@ export const movieReducer: Reducer<IMovieState, MovieActions> = (
     case MovieActionTypes.COMPUTE_CONNECTION: {
       return {
         ...state,
-        connection: computeConnectionFromState({...state})
+        connection: computeConnectionBetweenSelectedMovies({...state})
       };
     }
     default:
       return state;
   }
 };
-
-const computeConnectionFromState = (state: IMovieState) => {
-  if (state.firstSelectedMovie && state.secondSelectedMovie) {
-  //   const m1 = state.firstSelectedMovie
-  //   const m2 = state.secondSelectedMovie
-  //   state.movies.forEach(movie => {
-
-  //   })
-    return 'You have successfully selected two movies. Follow us on Twitter to get the latest news on connection calculations and more!'
-  }
-
-  return 'Please select two movies to see their connection.';
-}

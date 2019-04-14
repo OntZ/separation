@@ -142,7 +142,7 @@ The two autocomplete boxes use ```react-bootstrap-typeahead``` and can be found 
 
 The app is based off a React template I made in the past in an effort to avoid webpack-related frustration. I've integrated Redux based on an article I found. The relevant changes can be seen in the closed pull request linked above.
 
-The page is fully responsive via a simple grid system I came up with a while ago, which can be found in ```src/index.scss```, but otherwise minimalistic. The breakpoints are declared in ```src/app-mixins-and-vars.scss```, which is imported into all other style files courtesy of a node-sass configuration in webpack. That file should be restricted to SASS mixins and variables, otherwise node-sass gratiously duplicates any resulting CSS code as many times as it is used.
+The page is fully responsive via a simple grid system I came up with a while ago, which can be found in ```src/index.scss```, but otherwise minimalistic. The breakpoints are declared in ```src/app-mixins-and-vars.scss```, which is imported into all other style files courtesy of a node-sass configuration in webpack. That file should be restricted to SASS mixins and variables, otherwise node-sass gratiously duplicates any resulting CSS code as many times as it is automatically imported.
 
 ### Caveat
 I've never used Redux before in any serious fashion, so I'd be grateful if you could please feed back to me what I could improve on.

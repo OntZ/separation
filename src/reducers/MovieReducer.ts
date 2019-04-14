@@ -1,50 +1,64 @@
 
 // Import Reducer type
 import { Reducer } from 'redux';
-import {
-  MovieActions,
-  MovieActionTypes,
-} from '../actions/MovieActions';
+import { MovieActions, MovieActionTypes } from '../actions/MovieActions';
+import { computeConnectionBetweenSelectedMovies } from './processing/MovieFinding';
 
 // Define the Movie type
 export interface IMovie {
-  name: string;
-  height: string;
-  mass: string;
-  hair_color: string;
-  skin_color: string;
-  eye_color: string;
-  birth_year: string;
-  gender: string;
-  homeworld: string;
-  films: string[];
-  species: string[];
-  vehicles: string[];
-  starships: string[];
-  created: string;
-  edited: string;
-  url: string;
+  title: string;
+  cast: string[];
 }
 
 // Define the Movie State
 export interface IMovieState {
   readonly movies: IMovie[];
+  readonly firstSelectedMovie?: IMovie;
+  readonly secondSelectedMovie?: IMovie;
+  readonly connection?: string;
+  readonly thinking?: boolean;
 }
 
 // Define the initial state
 const initialMoviesState: IMovieState = {
-  movies: [],
+  movies: []
 };
 
-export const characterReducer: Reducer<IMovieState, MovieActions> = (
+export const movieReducer: Reducer<IMovieState, MovieActions> = (
   state = initialMoviesState,
   action
-) => {
+): IMovieState => {
   switch (action.type) {
     case MovieActionTypes.GET_ALL: {
       return {
         ...state,
-        movies: action.movies,
+        movies: action.movies
+      };
+    }
+    case MovieActionTypes.SELECT_FIRST: {
+      return {
+        ...state,
+        firstSelectedMovie: action.firstSelectedMovie,
+      };
+    }
+    case MovieActionTypes.SELECT_SECOND: {
+      return {
+        ...state,
+        secondSelectedMovie: action.secondSelectedMovie,
+      };
+    }
+    case MovieActionTypes.THINK: {
+      return {
+        ...state,
+        connection: '',
+        thinking: true
+      };
+    }
+    case MovieActionTypes.COMPUTE_CONNECTION: {
+      return {
+        ...state,
+        connection: computeConnectionBetweenSelectedMovies({...state}),
+        thinking: false
       };
     }
     default:

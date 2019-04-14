@@ -40,7 +40,7 @@ module.exports = {
           {
             test: /\.(ts|tsx)$/,
             include: getPath('src'),
-            loader: require.resolve('awesome-typescript-loader'),
+            loader: require.resolve('ts-loader'),
           },
           {
             test: /\.html$/,
@@ -87,7 +87,10 @@ module.exports = {
                 },
               },
               {
-                loader: require.resolve('sass-loader')
+                loader: require.resolve('sass-loader'),
+                options: {
+                  data: '@import "src/app-mixins-and-vars.scss";'
+                }
               },
             ],
           },

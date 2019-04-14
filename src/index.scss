@@ -1,0 +1,90 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  font-size: $min-font-size;
+}
+
+$grid-columns: 12;
+
+@mixin grid-content-area {
+  display: grid;
+  grid-column-gap: calculate-rem(30px);
+  @include breakpoint(medium) {
+    grid-column-gap: calculate-rem(20px);
+  }
+  @include breakpoint(small) {
+    grid-column-gap: 0;
+  }
+}
+
+// Styles for classes that define a grid area
+.content-area,
+.inner-grid {
+  @include grid-content-area();
+}
+@for $i from 1 through $grid-columns {
+  .inner-grid-#{$i} {
+    @include grid-content-area();
+  }
+}
+
+// Spacing and centering for the main content area
+.content-area {
+  margin: 0 auto;
+  max-width: $global-width;
+  grid-template-columns: repeat($grid-columns, 1fr);
+  padding: 0 30px;
+}
+
+// Grid layout for inner grids with varying numbers of columns
+@for $i from 1 through $grid-columns {
+  // .inner-grid-1, .inner-grid-2 ....
+  .inner-grid-#{$i} {
+    grid-template-columns: repeat($i, 1fr);
+  }
+
+  [class*="col-"] {
+    @include breakpoint(small) {
+      grid-column: span $i;
+    }
+  };
+}
+
+.bottom-spacing {
+  margin-bottom: 30px;
+}
+
+@for $i from 1 through $grid-columns {
+  // .col-lg-1, .col-lg-2, .... .col-lg-12 -> number of columns for desktop devices
+  .col-lg-#{$i} {
+    grid-column: span $i;
+    @include breakpoint(small) {
+      grid-column: span 12;
+    }
+  };
+}
+
+@for $i from 1 through $grid-columns {
+  // .col-md-1, .col-md-2, .... .col-md-12 -> number of columns for medium devices
+  .col-md-#{$i} {
+    @include breakpoint(medium) {
+      grid-column: span $i !important;
+    }
+    @include breakpoint(small) {
+      grid-column: span 12;
+    }
+  };
+}
+
+@for $i from 1 through $grid-columns {
+  // .col-sm-1, .col-sm-2, .... .col-sm-12 - number of columns for small devices
+  .col-sm-#{$i} {
+    @include breakpoint(small) {
+      grid-column: span $i !important;
+    }
+  };
+}

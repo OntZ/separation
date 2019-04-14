@@ -11,7 +11,7 @@ Redux Thunk middleware allows you to write action creators that return a functio
 import thunk from 'redux-thunk';
 // Import reducers and state type
 import {
-  characterReducer,
+  movieReducer,
   IMovieState,
 } from '../reducers/MovieReducer';
 
@@ -22,7 +22,7 @@ export interface IAppState {
 
 // Create the root reducer
 const rootReducer = combineReducers<IAppState>({
-  moviesState: characterReducer,
+  moviesState: movieReducer,
 });
 
 // Create a configure store function of type `IAppState`

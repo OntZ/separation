@@ -109,12 +109,15 @@ const areConnected = (m1: IMovie, m2: IMovie) => {
 }
 
 ```
+
 and then use it as
+
 ```ts
 const movieRelationships = new UndirectedGraph<IMovie>(state.movies, 'title', areConnected);
 console.log(JSON.stringify(movieRelationships.gedEdges(), null, 2)) // over 100MB of output upon using the API result
 ```
-and run Dijstra or A* to traverse that and find the shortest path between movies.
+
+and run Dijkstra or A* to traverse that and find the shortest path between movies.
 
 Unfortunately, populating the graph at this number of results takes forever and one would quickly lose customers. Showing a progress bar or a video of why using one's product would improve their lives might help, but once they figure out how long it takes to do this every time, their numbers will quickly dwindle. A possible UX optimization would be to cache the initial graph in local storage then on each new load compare the list of movies with the cached one and update the graph if needed, sunsequently being able to run one's traversal algorithm of choice as per user demands, but I still feel this is less than ideal.
 
@@ -134,7 +137,7 @@ Thus I resolved to create a fresh tree starting from movie 1 each time, adding r
 
 The core computation for this can be found in ```src/reducers/processing/MovieFinding.ts```. Comments and the adjacent tests help describe it.
 
-It is facilitated by a simple recursive data structure which can be found in ```dataStructures/TreeNode```.
+It is facilitated by a simple recursive data structure which can be found in ```src/dataStructures/TreeNode```.
 
 The movies get loaded upon page load via ```src/actions/MovieActions => getAllMovies```.
 

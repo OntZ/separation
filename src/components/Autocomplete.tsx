@@ -1,5 +1,7 @@
 /**
  * Light wrapper over Typeahead to make API more straightforward and styles easier on the eyes
+ * The lib shows max 100 results by default to save rendering costs, which I think is reasonable.
+ * Nobody would want to scroll through 28000 results.
  */
 
 import * as React from 'react';

@@ -25,7 +25,7 @@ and wraps the App component with Provider, giving props to containers
 const Root: React.SFC<IProps> = props => {
   return (
     <Provider store={props.store}>
-      <App greeting="Movie connection finder" />
+      <App title="Movie connection finder" />
     </Provider>
   );
 };

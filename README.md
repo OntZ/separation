@@ -1,5 +1,7 @@
 # Degrees of separation - find relationships in between movies
 
+Pull request showing everything except setting up a React + Redux base app: https://github.com/OntZ/separation/pull/1
+
 ## Setup guide
 
 ### Install dependencies:

@@ -8,6 +8,8 @@ import { IMovie } from '../reducers/MovieReducer';
 import { Autocomplete } from '../components/Autocomplete';
 import { MovieActionTypes, MovieActions } from '../actions/MovieActions';
 
+import './MovieList.scss';
+
 export interface IMovieListProps {
   movies: IMovie[];
   firstSelectedMovie?: IMovie;
@@ -16,10 +18,12 @@ export interface IMovieListProps {
   selectSecondMovie: (movie: IMovie) => void;
   computeConnection: (m1?: IMovie, m2?: IMovie) => string;
   connection: string;
+  thinking: boolean;
 }
 
 export class MovieList extends React.Component<IMovieListProps> {
   public render() {
+    console.log(this.props.thinking);
     return (
       <>
         {this.props.movies
@@ -51,6 +55,10 @@ export class MovieList extends React.Component<IMovieListProps> {
                 <br/>
                 <br/>
                 <br/>
+                {this.props.thinking
+                  ? <div className="thinking">Thinking...</div>
+                  : null
+                }
                 {this.props.connection}
               </div>
             </div>
@@ -62,17 +70,17 @@ export class MovieList extends React.Component<IMovieListProps> {
 
   private computeConnection = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    this.props.computeConnection()
+    this.props.computeConnection();
   }
 }
 
-// Grab the movies from the store and make them available on props
 const mapStateToProps = (store: IAppState) => {
   return {
     movies: store.moviesState.movies,
     firstSelectedMovie: store.moviesState.firstSelectedMovie,
     secondSelectedMovie: store.moviesState.secondSelectedMovie,
-    connection: store.moviesState.connection
+    connection: store.moviesState.connection,
+    thinking: store.moviesState.thinking,
   };
 };
 
@@ -91,8 +99,11 @@ const mapDispatchToProps = (dispatch: Dispatch<MovieActions>) => ({
   },
   computeConnection: () => {
     dispatch({
+      type: MovieActionTypes.THINK
+    });
+    setTimeout(() => dispatch({
       type: MovieActionTypes.COMPUTE_CONNECTION
-    })
+    }));
   }
 });
 

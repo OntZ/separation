@@ -16,6 +16,7 @@ export interface IMovieState {
   readonly firstSelectedMovie?: IMovie;
   readonly secondSelectedMovie?: IMovie;
   readonly connection?: string;
+  readonly thinking?: boolean;
 }
 
 // Define the initial state
@@ -46,10 +47,18 @@ export const movieReducer: Reducer<IMovieState, MovieActions> = (
         secondSelectedMovie: action.secondSelectedMovie,
       };
     }
+    case MovieActionTypes.THINK: {
+      return {
+        ...state,
+        connection: '',
+        thinking: true
+      };
+    }
     case MovieActionTypes.COMPUTE_CONNECTION: {
       return {
         ...state,
-        connection: computeConnectionBetweenSelectedMovies({...state})
+        connection: computeConnectionBetweenSelectedMovies({...state}),
+        thinking: false
       };
     }
     default:

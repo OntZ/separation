@@ -27,7 +27,7 @@ It should open the app in a browser window, but if it doesn't go to [http://loca
 
 ## Previously attempted solutions which have proven very unperformant
 
-You could construct this sort of graph and eagerly populate it upon loading the results from the API.
+I attempted to construct the following graph and eagerly populate it upon loading the results from the API.
 ```ts
 type FilterFlags<Base, Condition> = {
   [Key in keyof Base]:
@@ -116,7 +116,7 @@ console.log(JSON.stringify(movieRelationships.gedEdges(), null, 2)) // over 100M
 ```
 and run Dijstra or A* to traverse that and find the shortest path between movies.
 
-Unfortunately, populating the graph at this number of results takes forever and you would quickly lose customers. Showing a progress bar or a video of why using your product would improve their lives might help, but once they figure out how long it takes to do this every time their numbers will quickly dwindle. A possible UX optimization would be to cache the initial graph in local storage then on each new load compare the list of movies with the cached one and update the graph if needed, sunsequently being able to run your traversal algorithm of choice as per user demands, but I still feel this is less than ideal.
+Unfortunately, populating the graph at this number of results takes forever and one would quickly lose customers. Showing a progress bar or a video of why using one's product would improve their lives might help, but once they figure out how long it takes to do this every time, their numbers will quickly dwindle. A possible UX optimization would be to cache the initial graph in local storage then on each new load compare the list of movies with the cached one and update the graph if needed, sunsequently being able to run one's traversal algorithm of choice as per user demands, but I still feel this is less than ideal.
 
 Alternatively, I've attempted to create a matrix of relationships with the movies on both sides and 1/0 or true/false to describe whether or not there's any relationship between the movies. Same algorithms apply, but this loads memory with at least ```movies.length * movies.length * sizeof number / boolean``` (numbers are 64bit; I wasn't able to find the size of a boolean) and so quickly becomes unscalable on a local machine, particularly around the 28000 results mark.
 
